@@ -6,8 +6,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "roles")
 public enum Role {
-    USER, 
-    ADMIN, 
-    BAR, 
-    SHOP
+    ROLE_USER, 
+    ROLE_ADMIN, 
+    ROLE_BAR, 
+    ROLE_SHOP
 }

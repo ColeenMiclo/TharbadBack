@@ -19,6 +19,16 @@ public class User {
     private String password;
     private List<Role> roles;
 
+    //Constructors
+    public User() {
+    }
+
+    public User(String username, String password, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
     //Getters and Setters
     public Integer getId() {
         return id;
@@ -51,4 +61,6 @@ public class User {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+
 }
