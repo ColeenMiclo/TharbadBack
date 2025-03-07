@@ -12,24 +12,21 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import fr.tharbad.security.models.UserEntity;
-
 @Component
 public class JWTGenerator {
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long JWT_EXPIRATION = 86400000;
+    private static long JWT_EXPIRATION = 86400000;
 
     //JWT Token generation
     public String generateToken(Authentication authentication) {
 
         //Get username from authentication object
-        UserEntity user = (UserEntity) authentication.getPrincipal();
-        String email = user.getEmail();
+        String username = authentication.getName();
         Date currentDate = new Date();
         Date expirationDate = new Date(currentDate.getTime() + JWT_EXPIRATION);
 
         return Jwts.builder()
-            .setSubject(email)
+            .setSubject(username)
             .setIssuedAt(new Date())
             .setExpiration(expirationDate)
             .signWith(key, SignatureAlgorithm.HS256)
@@ -55,7 +52,7 @@ public class JWTGenerator {
             .parseClaimsJws(token);
             return true;
         } catch (Exception ex) {
-            throw new AuthenticationCredentialsNotFoundException("Invalid JWT Token", ex);
+            throw new AuthenticationCredentialsNotFoundException("Invalid JWT Token", ex.fillInStackTrace());
+        }
     }
-}
 }

@@ -1,24 +1,30 @@
 package fr.tharbad.security.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
-@NotNull
 public class UserEntity {
     //Declaration of the attributes
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
+    @NotNull
     @Column(nullable = false)
     private String username;
 
@@ -28,18 +34,19 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
     
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), 
+                inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
 
-    //Constructors
-    public UserEntity() {
+    //Constructor
+    public UserEntity(){
+
     }
 
-    public UserEntity(String username, String email, String password, Role role) {
-        this.username = username;
+    public UserEntity(String email, String password) {
         this.email = email;
         this.password = password;
-        this.role = (role != null) ? role : Role.ROLE_USER;
     }
 
     //Getters and Setters
@@ -75,18 +82,12 @@ public class UserEntity {
         this.password = password;
     }
 
-    public Role getRole() {
-     return role;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
-    //toString method
-    @Override
-    public String toString() {
-        return "UserEntity [email=" + email + ", id=" + id + ", password=" + password + ", role=" + role + ", username="
-                + username + "]";
-    }
 }

@@ -3,7 +3,7 @@ package fr.tharbad.security.dto;
 public class AuthResponseDTO {
 
     private String accessToken;
-    // private String tokenType = "Bearer";
+    private String tokenType = "Bearer";
 
     //Constructors
     public AuthResponseDTO(String accessToken) {
@@ -20,5 +20,13 @@ public class AuthResponseDTO {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

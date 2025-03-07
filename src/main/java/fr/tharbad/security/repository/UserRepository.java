@@ -8,6 +8,4 @@ import fr.tharbad.security.models.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByEmail(String email);
     Boolean existsByEmail(String email);
-    UserEntity save(UserEntity user);
-    
 }
